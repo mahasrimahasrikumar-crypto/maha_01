@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 100px;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+        }
+        button {
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>User Login</h2>
+
+    <input type="text" id="userid" placeholder="Enter User ID"><br>
+    <input type="password" id="password" placeholder="Enter Password"><br>
+    <button onclick="login()">Login</button>
+
+    <script>
+        function login() {
+            var user = document.getElementById("userid").value;
+            var pass = document.getElementById("password").value;
+
+            if(user === "admin" && pass === "1234") {
+                window.location.href = "details.html";
+            } else {
+                alert("Invalid User ID or Password");
+            }
+        }
+    </script>
+
+</body>
+</html>
