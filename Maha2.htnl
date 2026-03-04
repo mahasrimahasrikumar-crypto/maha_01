@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+</head>
+<body>
+
+<h1>You Are Welcome To My Page</h1>
+
+<form action="/login" method="POST">
+    <label>User ID:</label><br>
+    <input type="text" name="userid" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
+
+	const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+const app = express();
+
+// Connect MongoDB
+mongoose.connect("mongodb://127.0.0.1:27017/mydata");
+
+const userSchema = new mongoose.Schema({
+  userid: String,
+  password: String,
+  address: String
+});
+
+const User = mongoose.model("User", userSchema);
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+// Login Data
+app.post("/login", async (req, res) => {
+  const newUser = new User({
+    userid: req.body.userid,
+    password: req.body.password
+  });
+  await newUser.save();
+  res.redirect("/address.html");
+});
+
+// Address Data
+app.post("/address", async (req, res) => {
+  await User.updateOne(
+    { userid: req.body.userid },
+    { address: req.body.address }
+  );
+  res.send("Data Saved Successfully");
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
