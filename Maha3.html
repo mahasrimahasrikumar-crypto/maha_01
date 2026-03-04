@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, textarea {
+            padding: 8px;
+            width: 250px;
+        }
+        button {
+            padding: 8px 20px;
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>You Are Welcome To My Page</h1>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+    <h2>Login</h2>
+    <input type="text" id="userid" placeholder="User ID"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- ADDRESS PAGE -->
+<div id="addressPage" class="hidden">
+    <h2>Enter Your Address</h2>
+    <textarea id="address" placeholder="Enter Address"></textarea><br>
+    <button onclick="saveAddress()">Submit</button>
+</div>
+
+<script>
+function login() {
+    var userid = document.getElementById("userid").value;
+    var password = document.getElementById("password").value;
+
+    if(userid === "" || password === "") {
+        alert("Please fill all fields");
+        return;
+    }
+
+    // Store in browser
+    localStorage.setItem("userid", userid);
+    localStorage.setItem("password", password);
+
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("addressPage").classList.remove("hidden");
+}
+
+function saveAddress() {
+    var address = document.getElementById("address").value;
+
+    if(address === "") {
+        alert("Please enter address");
+        return;
+    }
+
+    localStorage.setItem("address", address);
+
+    alert("Data Saved Successfully ✅");
+}
+</script>
+
+</body>
+</html>
