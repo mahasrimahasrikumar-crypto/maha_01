@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EB Fault System</title>
+
+<style>
+body{
+  font-family: Arial;
+  text-align:center;
+  background:#f2f2f2;
+}
+
+.page{
+  display:none;
+  margin-top:30px;
+}
+
+input, select{
+  padding:8px;
+  margin:5px;
+  width:220px;
+}
+
+button{
+  padding:8px 15px;
+  margin:10px;
+  cursor:pointer;
+}
+
+.container{
+  display:flex;
+  justify-content:space-around;
+  margin-top:20px;
+}
+
+.box{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  width:40%;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>You are Welcome to My Page</h1>
+
+<!-- LOGIN PAGE -->
+<div id="login" class="page" style="display:block;">
+<h2>EB Office Login</h2>
+
+<input type="text" id="officeNo" placeholder="EB Office Number"><br>
+<input type="password" id="password" placeholder="Password"><br>
+
+<button onclick="login()">Login</button>
+</div>
+
+
+<!-- DASHBOARD PAGE -->
+<div id="dashboard" class="page">
+
+<div class="container">
+
+<div class="box">
+<h3>Enter User Address</h3>
+<input type="number" id="pole" placeholder="Pole Number"><br>
+<input type="number" id="ebno" placeholder="EB Number"><br>
+<input type="number" id="mobile" placeholder="Mobile Number"><br>
+</div>
+
+<div class="box">
+<h3>EB Officer Number</h3>
+<input type="text" id="officerNumber"><br>
+<button onclick="updateOfficer()">Update Officer</button>
+</div>
+
+</div>
+
+<button onclick="nextPage()">Next</button>
+</div>
+
+
+<!-- FAULT PAGE -->
+<div id="faultPage" class="page">
+
+<h2>Fault Detection</h2>
+
+<input type="number" id="faultPole" placeholder="Enter Pole Number"><br>
+
+<select id="messageType">
+<option value="1">Fault</option>
+<option value="2">Delay Time</option>
+</select><br>
+
+<button onclick="sendFault()">Send Message</button>
+
+<p id="result"></p>
+
+</div>
+
+
+
+<script>
+
+// Store data
+let officerNumber = "";
+let userAddresses = [];
+
+// LOGIN FUNCTION
+function login(){
+  let office = document.getElementById("officeNo").value;
+  let pass = document.getElementById("password").value;
+
+  if(office !== "" && pass !== ""){
+    document.getElementById("login").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+  } else{
+    alert("Please enter login details");
+  }
+}
+
+// UPDATE OFFICER NUMBER
+function updateOfficer(){
+  officerNumber = document.getElementById("officerNumber").value;
+  alert("Officer Number Updated: " + officerNumber);
+}
+
+// GO TO FAULT PAGE
+function nextPage(){
+
+  let pole = document.getElementById("pole").value;
+  let ebno = document.getElementById("ebno").value;
+  let mobile = document.getElementById("mobile").value;
+
+  if(pole && ebno && mobile){
+    userAddresses.push({pole:pole, ebno:ebno, mobile:mobile});
+  }
+
+  document.getElementById("dashboard").style.display="none";
+  document.getElementById("faultPage").style.display="block";
+}
+
+
+// SEND FAULT MESSAGE
+function sendFault(){
+
+  let poleNumber = document.getElementById("faultPole").value;
+  let type = document.getElementById("messageType").value;
+
+  let message = "";
+
+  if(type == "1"){
+    message = "FAULT";
+  } else{
+    message = "DELAY TIME";
+  }
+
+  // Condition: if pole number = 2 → send to 2 to nth
+  if(poleNumber == 2){
+    document.getElementById("result").innerHTML =
+      "Message sent to users from 2 to N<br>Type: " + message;
+  } else{
+    document.getElementById("result").innerHTML =
+      "Message sent to Pole: " + poleNumber +
+      "<br>Type: " + message;
+  }
+
+}
+
+</script>
+
+</body>
+</html>
